@@ -21,6 +21,19 @@ This skill sets the default engineering posture. When the task needs concrete fr
 - Preserve existing data formats and migration paths unless the task explicitly calls for a storage change.
 - Treat build success as part of the task, not a separate optional step.
 
+## Optimization Discussion Template
+
+When the user wants to review optimizations or bug fixes before implementation, explain one item at a time and wait for confirmation before editing nontrivial code.
+
+Use this shape:
+
+1. Name the optimization and point to the relevant file/line when practical.
+2. Explain the current behavior in concrete terms.
+3. Explain the bug, risk, or maintenance cost it creates.
+4. Recommend a specific implementation plan.
+5. Call out tradeoffs, behavior changes, or compatibility questions.
+6. State the exact next action you will take if the user confirms.
+
 ## Architecture And State
 
 Default to a lightweight Model-View style for SwiftUI apps unless the project already uses another architecture.
@@ -47,7 +60,9 @@ Practical rules:
 
 - Keep `ContentView.swift` small. Use it mainly for top-level composition, navigation, sheets, and environment wiring.
 - Split views by feature when a file grows: headers, grids, tiles, settings rows, reader controls, dialogs, and sheets can live in separate files.
+- When the source folder around `ContentView.swift` becomes crowded, introduce responsibility-based subdirectories instead of leaving every feature file in one flat directory. Prefer domain/ownership groupings such as `Reader/Reflowable`, `Reader/Selection`, `Reader/Web`, `Library/Grid`, or `Library/Sheets` over arbitrary type buckets when that makes navigation clearer.
 - Keep reusable non-UI behavior in focused helper files, for example `LocalFileImporter`, `BookParser`, `CacheManager`, or `ShareExporter`.
+- Add a brief file-level comment only when the file's role, ownership boundary, lifecycle assumptions, or interaction with persistence/rendering/import flows is not obvious from its name and top-level types.
 - Keep UI independent from storage paths. Views should render model values and call store/controller methods.
 - Avoid mixing app-wide theme tokens directly into feature logic.
 
