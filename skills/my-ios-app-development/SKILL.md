@@ -1,6 +1,6 @@
 ---
 name: my-ios-app-development
-description: Use as the top-level best-practice guide when designing, implementing, refactoring, or reviewing SwiftUI iOS apps. Covers app architecture, file organization, state ownership, local-first data, theming, import/share flows, reader rendering surfaces, accessibility, performance, testing, concurrency safety, settings, App Store metadata, ASO competitor analysis, release notes, and Xcode build validation. For deep framework details, pair with specialized skills such as my-ios-app-swiftui-patterns, my-ios-app-swift-concurrency, my-ios-app-swift-testing, my-ios-app-swiftui-performance, my-ios-app-ios-accessibility, my-ios-app-swiftdata, my-ios-app-pdfkit, my-ios-app-swiftui-webkit, or my-ios-app-store-changelog.
+description: Use as the top-level best-practice guide when designing, implementing, refactoring, or reviewing SwiftUI iOS apps. Covers app architecture, file organization, state ownership, local-first data, theming, import/share flows, reader rendering surfaces, accessibility, performance, testing, concurrency safety, settings, release notes, and Xcode build validation. For deep framework or App Store details, pair with specialized skills such as my-ios-app-swiftui-patterns, my-ios-app-swift-concurrency, my-ios-app-swift-testing, my-ios-app-swiftui-performance, my-ios-app-ios-accessibility, my-ios-app-swiftdata, my-ios-app-pdfkit, my-ios-app-swiftui-webkit, my-ios-app-aso, or my-ios-app-store-changelog.
 ---
 
 # iOS App Development
@@ -21,6 +21,14 @@ This skill sets the default engineering posture. When the task needs concrete fr
 - Preserve existing data formats and migration paths unless the task explicitly calls for a storage change.
 - Treat build success as part of the task, not a separate optional step.
 
+## Version And Availability Strategy
+
+- Before recommending or using modern Apple APIs, inspect the project's minimum deployment target, Swift language version, Xcode/toolchain version, and package platform settings when they are available.
+- Match implementation choices to the existing target. Do not introduce iOS 26+, Swift 6.3+, or Xcode 26-era APIs into an older-target project unless the user accepts the target bump or the code includes availability gates and fallbacks.
+- When a companion skill documents a newer API, treat its version notes as gates, not defaults that override the app's current compatibility policy.
+- If the project has no clear version policy, state the assumed target before using version-sensitive APIs.
+- Keep compatibility logic localized: prefer small `#available` branches, focused adapters, or alternate helper methods over scattering version checks through feature views.
+
 ## Optimization Discussion Template
 
 When the user wants to review optimizations or bug fixes before implementation, explain one item at a time and wait for confirmation before editing nontrivial code.
@@ -33,6 +41,26 @@ Use this shape:
 4. Recommend a specific implementation plan.
 5. Call out tradeoffs, behavior changes, or compatibility questions.
 6. State the exact next action you will take if the user confirms.
+
+## Optimization Review Areas
+
+When scanning a project for optimization or cleanup opportunities, prioritize user-impacting correctness before cosmetic cleanup. Consider these areas:
+
+- **Hidden bugs and edge cases**: array bounds, optional handling, missing resources, permission denial, failed network/file operations, entitlement drift, stale UI state, and inconsistent success/failure flows.
+- **User-visible behavior**: taps that do nothing, missing loading or error feedback, stuck UI, duplicated prompts, confusing alerts, inconsistent purchase/restore/rating behavior, and broken external links.
+- **Lifecycle and concurrency**: uncancelled tasks, timers, delayed callbacks after a view disappears, broad catch blocks that swallow cancellation, missing `@MainActor`, duplicated requests, and state updates after navigation.
+- **Data and persistence safety**: durable storage for user-owned data, migration compatibility, stable IDs, duplicate writes, stale caches, `UserDefaults` key ownership, and cleanup that might delete canonical data.
+- **Architecture and file responsibilities**: oversized files, mixed UI/business/storage/network concerns, unclear ownership boundaries, global state used where injection would be cleaner, and duplicated logic that should live in one helper/store/service.
+- **File organization**: domain-based grouping, app bundle hygiene, separation of source/resources/tools/docs, focused helper files, and file-level comments when a file's role is not obvious.
+- **Naming and API shape**: names that reveal behavior and ownership, old names that no longer match behavior, loose strings that should be enums, and public methods that expose implementation details.
+- **Dead code and resource cleanup**: unused types, methods, state, imports, previews, debug prints, commented-out blocks, obsolete assets, scripts, test data, and unused project references.
+- **Error handling and observability**: actionable user-facing errors, narrow error cases, fallback paths, avoiding silent failure, and keeping debug logging useful but not noisy.
+- **Performance**: heavy work in SwiftUI `body`, repeated filtering/decoding, image loading without caching/downsampling, identity churn, layout thrash, unnecessary animations, and leaks from long-lived timers or tasks.
+- **Compatibility and platform rules**: deployment target, deprecated APIs, permission strings, Info.plist requirements, StoreKit behavior, App Store review risks, accessibility expectations, and privacy/security-sensitive surfaces.
+- **Formatting and consistency**: indentation, import cleanup, comment quality, method ordering, line length, and consistency with local style. Keep this lower priority unless it blocks readability or review.
+- **Testing and validation**: add focused tests for risky pure logic when the project supports it; otherwise validate with targeted builds and a short manual checklist for user-facing flows.
+
+Default priority order: correctness and data loss risks first, then lifecycle/purchase/permission/user-visible behavior, then maintainability, then file organization/naming/formatting.
 
 ## Architecture And State
 
@@ -203,134 +231,9 @@ Use `my-ios-app-swift-testing` for `@Test`, `#expect`, `#require`, async tests, 
 
 ## App Store Metadata And ASO
 
-Treat App Store metadata as a product surface, not a form-filling chore. The app name, subtitle, keywords, promotional text, description, icon, previews, and screenshots affect discoverability, ranking signals, first impression, and conversion.
-
-### Metadata Strategy
-
-- Start from user intent. List the search phrases a target user would naturally type when looking for this app, then map those phrases into name, subtitle, and keywords.
-- Before generating app name, subtitle, promotional text, description, or keywords, collect competitor data when available. Use competitor listings, ASO dashboards, keyword rankings, reviews, screenshots, and category charts to avoid writing metadata from intuition alone.
-- Balance search coverage with trust. Keyword stuffing can make the listing look low quality even when it increases matching surface.
-- Keep metadata accurate. Do not promise unsupported features, unsupported platforms, pricing terms, celebrity names, trademarked terms, or competitor names unless there is a clear legal and review-safe reason.
-- Localize metadata intentionally. Do not blindly translate keywords; choose terms people in that locale actually search for.
-- Review metadata whenever product positioning changes, not only when code changes.
-
-### Competitor Analysis Data Sources
-
-Use ASO and app-intelligence tools to ground metadata decisions in observed market data. Do not rely only on intuition.
-
-- **QiMai / 七麦数据**: use for China-focused App Store and Android market research, ranking snapshots, keyword coverage, keyword heat, Apple Ads/Search Ads signals, and competitor monitoring.
-- **ASOTools**: use for overseas ASO, Google Play + App Store keyword research, competitor keyword ideas, country/category rankings, download and revenue estimates, and multi-locale analysis.
-- **DianDian / 点点数据**: use for broader app/game intelligence, app rankings, market share, download/revenue trend estimates, user behavior signals, competitor comparison, and global market tracking.
-- **ChanMaster / 蝉大师**: use for keyword expansion, keyword rank/coverage checks, ASO diagnosis, App Store ranking history, ASM/Apple Search Ads auxiliary analysis, and competitor ASO comparison.
-- **ASO114**: use as a supplementary domestic ASO source for keyword coverage, ranking trends, Android channel checks, and competitor keyword gap analysis.
-
-Treat third-party metrics as directional estimates, not absolute truth. Different vendors may disagree because their data models, market coverage, refresh cadence, and estimation methods differ.
-
-### Competitor Analysis Workflow
-
-1. Define the competitor set:
-   - Direct competitors: apps solving the same user job.
-   - Search competitors: apps ranking for the keywords you want.
-   - Category competitors: apps consistently appearing in the same category charts.
-   - Aspirational competitors: apps with strong conversion assets or positioning, even if the feature set differs.
-2. Capture a metadata snapshot for each competitor:
-   - App name, subtitle, keywords if visible or estimated, promotional text, description opening, screenshots, preview videos, category, rating, review count, version cadence, pricing, and IAP/subscription model.
-3. Capture ASO signals:
-   - Keyword coverage, keyword rank, keyword heat/search volume, ranking history, category rank, hot-search presence, download/revenue estimates, review trend, rating trend, and regional differences.
-4. Identify gaps:
-   - Keywords competitors rank for but this app does not.
-   - High-intent long-tail terms with moderate difficulty.
-   - Positioning claims competitors repeat.
-   - Visual promises made by screenshots and previews.
-   - Review complaints that reveal unmet user needs.
-5. Convert findings into metadata decisions:
-   - Put the strongest intent terms into app name and subtitle.
-   - Put remaining relevant terms into keywords.
-   - Use promotional text and description to answer the most common user hesitation.
-   - Use screenshots and previews to prove the highest-value claims.
-6. Track before/after:
-   - Save the old metadata, new metadata, change date, target keywords, baseline ranks, and follow-up ranks.
-   - Re-check after enough time has passed for indexing and ranking movement.
-
-### Metadata Generation Workflow
-
-When asked to generate app name, subtitle, promotional text, description, or keywords:
-
-1. Collect inputs:
-   - App purpose, target users, core features, monetization model, supported regions/languages, and any hard product claims.
-   - Existing app metadata, if any.
-   - Competitor list, target keywords, category, and country/region.
-2. Gather competitor evidence:
-   - Use ASO tools, App Store pages, public listings, or user-provided exports/screenshots to collect competitor names, subtitles, description openings, screenshot promises, review complaints, keyword coverage, and rank signals.
-   - If live data access is unavailable, ask for tool exports or competitor URLs; otherwise state that the metadata draft is based on provided context only.
-3. Build a keyword pool:
-   - Separate brand terms, category terms, feature terms, problem terms, audience terms, and long-tail intent terms.
-   - Mark each term as high/medium/low priority based on relevance, competitor usage, search intent, and likely difficulty.
-4. Allocate words deliberately:
-   - App name: brand plus the strongest core term if it remains natural.
-   - Subtitle: primary value proposition plus secondary high-intent terms.
-   - Keywords: relevant remaining terms, synonyms, and long-tail fragments not already covered by name/subtitle.
-   - Promotional text: timely value proposition or campaign copy aimed at conversion.
-   - Description: benefit-first explanation, proof points, feature bullets, and trust-building details.
-5. Return options with rationale:
-   - Provide 3-5 candidate name/subtitle combinations when naming is requested.
-   - Provide a keyword list grouped by intent, not just one comma-separated dump.
-   - Explain which competitor or search-intent evidence influenced the choices.
-   - Call out unsupported assumptions and review-risky claims.
-
-### Data Collection Rules
-
-- Prefer official exports, paid dashboard downloads, public pages, or documented APIs when available.
-- Do not bypass login, paywalls, rate limits, anti-bot controls, robots.txt, or platform terms just to scrape data.
-- If using screenshots or manual notes from paid tools, record the source, query date, country/region, platform, and selected category.
-- Normalize data before comparing competitors: same country, same device family, same app store, same category, and same date range.
-- Keep a simple competitor matrix so metadata changes are explainable later.
-
-### App Name
-
-- Keep the app name simple, memorable, easy to spell, and connected to what the app does.
-- Use the pattern `Brand/App Name + highest-value core keyword` only when it still reads naturally.
-- Put the strongest, most differentiated keyword here; do not waste the name on generic category words alone.
-- Stay within App Store limits and avoid names that are too similar to existing apps.
-
-### Subtitle
-
-- Use the subtitle to complete the app name: explain the primary value, core use case, or audience.
-- Add secondary high-intent keywords that were not already used in the name.
-- Avoid generic claims such as "best app" or vague emotional copy with no feature signal.
-- Treat name and subtitle as one combined sentence users see in search and on the product page.
-
-### Keywords
-
-- Use the keyword field for relevant search terms not already covered by the app name or subtitle.
-- Prefer concise single terms separated by commas without spaces so the character budget goes to searchable words.
-- Mix broad category terms with specific use-case terms. Broad terms increase reach; specific terms usually express stronger intent.
-- Avoid duplicates across name, subtitle, and keywords unless testing proves a reason.
-- Include common synonyms, feature terms, audience terms, and problem terms. Skip words that are irrelevant just because they have high volume.
-- Track performance and revise keywords over releases; ASO is an iterative process.
-
-### Promotional Text
-
-- Use promotional text for timely conversion copy: new features, seasonal campaigns, limited-time positioning, or a strong current value proposition.
-- Keep it self-contained and useful even if the user reads only the first sentence.
-- Do not treat promotional text as the main keyword field; use it to persuade visitors who already reached the product page.
-- Prefer specific benefit copy over hype.
-
-### Description
-
-- Lead with the clearest user benefit and the problem the app solves.
-- Use short paragraphs and scannable feature bullets. Put the most important information before the user has to expand or keep reading.
-- Explain what makes the app different, who it is for, and what the user can do immediately after installing.
-- Keep claims review-safe and supportable. Avoid unverifiable superlatives, roadmap promises, and misleading pricing language.
-- Refresh the description when major features, pricing, subscription behavior, or positioning changes.
-
-### Review Checklist
-
-- Does the name/subtitle/keyword set cover the target search intents without obvious duplication?
-- Does the listing read like a trustworthy product page, not an SEO dump?
-- Are the first visible words of the name, subtitle, promotional text, and description understandable without context?
-- Are all claims true in the current app build?
-- Are metadata, screenshots, and app behavior aligned?
+- Treat App Store metadata as a product surface: app name, subtitle, keywords, promotional text, description, screenshots, previews, and positioning should match the current app behavior.
+- Ground ASO recommendations in user intent and competitor evidence when available; call out when a draft is based only on provided context.
+- Use `my-ios-app-aso` for App Store metadata generation, competitor analysis, keyword strategy, localized listing copy, screenshot messaging, and ASO review notes.
 
 ## Release Notes
 
@@ -352,14 +255,25 @@ Use `my-ios-app-store-changelog` for App Store "What's New", TestFlight notes, a
 - Use `my-ios-app-swiftdata` for SwiftData/Core Data persistence details.
 - Use `my-ios-app-pdfkit` for PDF rendering, search, thumbnails, annotations, and SwiftUI wrapping.
 - Use `my-ios-app-swiftui-webkit` for WebKit-backed HTML, EPUB-style rendering, JavaScript, local content, or custom URL schemes.
+- Use `my-ios-app-aso` for App Store metadata, ASO competitor analysis, keyword strategy, localized listing copy, and screenshot messaging.
 - Use `my-ios-app-store-changelog` for App Store "What's New", TestFlight notes, or release changelog copy.
 
 ## Validation
 
-For SwiftUI iOS apps, run a generic device build to avoid simulator availability issues:
+Choose the narrowest validation command that matches the project shape and requested change:
 
 ```bash
-xcodebuild -project <AppName>.xcodeproj -scheme <AppName> -destination generic/platform=iOS -derivedDataPath /private/tmp/<AppName>_derived CODE_SIGNING_ALLOWED=NO build
+# Swift package
+swift test
+
+# Xcode workspace
+xcodebuild -workspace <AppName>.xcworkspace -scheme <SchemeName> -destination generic/platform=iOS -derivedDataPath /private/tmp/<SchemeName>_derived CODE_SIGNING_ALLOWED=NO build
+
+# Xcode project
+xcodebuild -project <AppName>.xcodeproj -scheme <SchemeName> -destination generic/platform=iOS -derivedDataPath /private/tmp/<SchemeName>_derived CODE_SIGNING_ALLOWED=NO build
 ```
 
-If the sandbox blocks Swift preview macros or Xcode plugin tooling, rerun the same command with approval outside the sandbox.
+- Prefer a workspace build when both `.xcworkspace` and `.xcodeproj` exist.
+- Use a generic iOS destination to avoid simulator availability issues.
+- For test-only changes, run the affected test target or package tests when practical.
+- If the sandbox blocks Swift preview macros or Xcode plugin tooling, rerun the same command with approval outside the sandbox.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS App Store ASO"
+  short_description: "Create and review App Store metadata"
+  default_prompt: "Use $my-ios-app-aso to generate App Store metadata and ASO recommendations for my iOS app."

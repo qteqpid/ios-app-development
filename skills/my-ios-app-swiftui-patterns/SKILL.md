@@ -5,7 +5,7 @@ description: "Builds SwiftUI views with modern MV architecture, state management
 
 # SwiftUI Patterns
 
-Modern SwiftUI patterns targeting iOS 26+ with Swift 6.3. Covers architecture, state management, view composition, environment wiring, async loading, design polish, and platform/share integration. Navigation and layout patterns live in dedicated sibling skills. Patterns are backward-compatible to iOS 17 unless noted.
+Modern SwiftUI patterns targeting iOS 26+ with Swift 6.3. Covers architecture, state management, view composition, environment wiring, async loading, design polish, and platform/share integration. Navigation and layout patterns live in the focused reference files below. Patterns are backward-compatible to iOS 17 unless noted.
 
 ## Contents
 
