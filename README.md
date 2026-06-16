@@ -1,5 +1,7 @@
 # iOS App Development Skills
 
+Language: English | [简体中文](README.zh-CN.md)
+
 Reusable Codex skills for building, reviewing, and maintaining SwiftUI iOS apps.
 
 This repository is organized around `my-ios-app-development`, a top-level best-practice skill for iOS app work, plus focused companion skills for SwiftUI patterns, concurrency, testing, performance, accessibility, SwiftData, PDFKit, WebKit, and App Store release copy.
