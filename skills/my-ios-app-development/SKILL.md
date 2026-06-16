@@ -42,25 +42,25 @@ Use this shape:
 5. Call out tradeoffs, behavior changes, or compatibility questions.
 6. State the exact next action you will take if the user confirms.
 
-## Optimization Review Areas
+## Optimization Review Order
 
-When scanning a project for optimization or cleanup opportunities, prioritize user-impacting correctness before cosmetic cleanup. Consider these areas:
+When scanning a project for optimization or cleanup opportunities, follow an implementation-oriented order: establish constraints first, protect data, fix correctness and user-visible behavior, then improve structure and polish. For each risky item, define validation alongside the change instead of leaving all testing to the end.
 
+- **Compatibility and platform rules**: deployment target, deprecated APIs, permission strings, Info.plist requirements, StoreKit behavior, App Store review risks, accessibility expectations, and privacy/security-sensitive surfaces.
+- **Data and persistence safety**: durable storage for user-owned data, migration compatibility, stable IDs, duplicate writes, stale caches, `UserDefaults` key ownership, and cleanup that might delete canonical data.
 - **Hidden bugs and edge cases**: array bounds, optional handling, missing resources, permission denial, failed network/file operations, entitlement drift, stale UI state, and inconsistent success/failure flows.
 - **User-visible behavior**: taps that do nothing, missing loading or error feedback, stuck UI, duplicated prompts, confusing alerts, inconsistent purchase/restore/rating behavior, and broken external links.
 - **Lifecycle and concurrency**: uncancelled tasks, timers, delayed callbacks after a view disappears, broad catch blocks that swallow cancellation, missing `@MainActor`, duplicated requests, and state updates after navigation.
-- **Data and persistence safety**: durable storage for user-owned data, migration compatibility, stable IDs, duplicate writes, stale caches, `UserDefaults` key ownership, and cleanup that might delete canonical data.
-- **Architecture and file responsibilities**: oversized files, mixed UI/business/storage/network concerns, unclear ownership boundaries, global state used where injection would be cleaner, and duplicated logic that should live in one helper/store/service.
-- **File organization**: domain-based grouping, app bundle hygiene, separation of source/resources/tools/docs, focused helper files, and file-level comments when a file's role is not obvious.
-- **Naming and API shape**: names that reveal behavior and ownership, old names that no longer match behavior, loose strings that should be enums, and public methods that expose implementation details.
-- **Dead code and resource cleanup**: unused types, methods, state, imports, previews, debug prints, commented-out blocks, obsolete assets, scripts, test data, and unused project references.
 - **Error handling and observability**: actionable user-facing errors, narrow error cases, fallback paths, avoiding silent failure, and keeping debug logging useful but not noisy.
 - **Performance**: heavy work in SwiftUI `body`, repeated filtering/decoding, image loading without caching/downsampling, identity churn, layout thrash, unnecessary animations, and leaks from long-lived timers or tasks.
-- **Compatibility and platform rules**: deployment target, deprecated APIs, permission strings, Info.plist requirements, StoreKit behavior, App Store review risks, accessibility expectations, and privacy/security-sensitive surfaces.
+- **Architecture and file responsibilities**: oversized files, mixed UI/business/storage/network concerns, unclear ownership boundaries, global state used where injection would be cleaner, and duplicated logic that should live in one helper/store/service.
+- **Dead code and resource cleanup**: unused types, methods, state, imports, previews, debug prints, commented-out blocks, obsolete assets, scripts, test data, and unused project references.
+- **Naming and API shape**: names that reveal behavior and ownership, old names that no longer match behavior, loose strings that should be enums, and public methods that expose implementation details.
+- **File organization**: domain-based grouping, app bundle hygiene, separation of source/resources/tools/docs, focused helper files, and file-level comments when a file's role is not obvious.
 - **Formatting and consistency**: indentation, import cleanup, comment quality, method ordering, line length, and consistency with local style. Keep this lower priority unless it blocks readability or review.
-- **Testing and validation**: add focused tests for risky pure logic when the project supports it; otherwise validate with targeted builds and a short manual checklist for user-facing flows.
+- **Testing and validation**: add focused tests for risky pure logic when the project supports it, pair behavioral changes with manual checks, and finish with targeted builds/tests that match the changed surface.
 
-Default priority order: correctness and data loss risks first, then lifecycle/purchase/permission/user-visible behavior, then maintainability, then file organization/naming/formatting.
+Default priority order: platform constraints, data safety, correctness, user-visible behavior, lifecycle/concurrency, error handling, performance, architecture, cleanup, naming, file organization, formatting, and targeted validation.
 
 ## Architecture And State
 
