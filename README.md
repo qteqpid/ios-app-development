@@ -4,7 +4,7 @@
 
 用于构建、审查和维护 SwiftUI iOS 应用的可复用 Codex skills。
 
-本仓库围绕 `my-ios-app-development` 这个顶层 iOS 应用开发最佳实践 skill 组织，并提供面向 SwiftUI 模式、并发、测试、性能、无障碍、SwiftData、PDFKit、WebKit 和 App Store 发布文案的专项 companion skills。
+本仓库围绕 `my-ios-app-development` 这个顶层 iOS 应用开发最佳实践 skill 组织，并提供面向 SwiftUI 模式、并发、测试、性能、无障碍、SwiftData、PDFKit、WebKit、ASO 和 App Store 发布文案的专项 companion skills。
 
 ## Skills
 
@@ -19,6 +19,7 @@
 | `my-ios-app-swiftdata` | SwiftData 持久化细节，包括 `@Model`、`ModelContainer`、`@Query`、predicate、迁移、CloudKit 同步和 Core Data 共存。 |
 | `my-ios-app-pdfkit` | PDFKit 渲染、导航、搜索、选择、缩略图、标注和 SwiftUI 包装。 |
 | `my-ios-app-swiftui-webkit` | 基于 WebKit 的 SwiftUI HTML 渲染、本地内容、导航策略、JavaScript 和自定义 URL scheme。 |
+| `my-ios-app-aso` | iOS App Store 元数据和 ASO 策略，包括应用名称、副标题、关键词、推广文本、描述、竞品矩阵、本地化 listing 文案、截图信息和定位审查。 |
 | `my-ios-app-store-changelog` | 根据 git 历史生成 App Store “What's New”、TestFlight 说明和面向用户的变更日志。 |
 
 ## Layout
@@ -34,6 +35,7 @@ skills/
   my-ios-app-swiftdata/
   my-ios-app-pdfkit/
   my-ios-app-swiftui-webkit/
+  my-ios-app-aso/
   my-ios-app-store-changelog/
 ```
 
@@ -53,6 +55,7 @@ ln -sfn "$PWD/skills/my-ios-app-ios-accessibility" ~/.codex/skills/my-ios-app-io
 ln -sfn "$PWD/skills/my-ios-app-swiftdata" ~/.codex/skills/my-ios-app-swiftdata
 ln -sfn "$PWD/skills/my-ios-app-pdfkit" ~/.codex/skills/my-ios-app-pdfkit
 ln -sfn "$PWD/skills/my-ios-app-swiftui-webkit" ~/.codex/skills/my-ios-app-swiftui-webkit
+ln -sfn "$PWD/skills/my-ios-app-aso" ~/.codex/skills/my-ios-app-aso
 ln -sfn "$PWD/skills/my-ios-app-store-changelog" ~/.codex/skills/my-ios-app-store-changelog
 ```
 
@@ -67,6 +70,7 @@ ln -sfn "$PWD/skills/my-ios-app-store-changelog" ~/.codex/skills/my-ios-app-stor
 - 用 `my-ios-app-development` 处理功能规划、应用架构、数据所有权、文件布局、ASO 元数据和验证策略。
 - 用 `my-ios-app-swiftui-patterns` 处理 SwiftUI 页面组合、导航、sheet、应用接线、preview 和状态所有权细节。
 - 当编译器诊断涉及 actor isolation、`Sendable` 或数据竞争安全时，用 `my-ios-app-swift-concurrency`。
+- 当需要生成或优化 App Store 名称、副标题、关键词、描述、截图文案或竞品矩阵时，用 `my-ios-app-aso`。
 - 当需要根据 git 历史准备 App Store 或 TestFlight 发布说明时，用 `my-ios-app-store-changelog`。
 
 ## Attribution

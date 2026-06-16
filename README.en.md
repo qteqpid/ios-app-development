@@ -4,7 +4,7 @@ Language: [简体中文](README.md) | English
 
 Reusable Codex skills for building, reviewing, and maintaining SwiftUI iOS apps.
 
-This repository is organized around `my-ios-app-development`, a top-level best-practice skill for iOS app work, plus focused companion skills for SwiftUI patterns, concurrency, testing, performance, accessibility, SwiftData, PDFKit, WebKit, and App Store release copy.
+This repository is organized around `my-ios-app-development`, a top-level best-practice skill for iOS app work, plus focused companion skills for SwiftUI patterns, concurrency, testing, performance, accessibility, SwiftData, PDFKit, WebKit, ASO, and App Store release copy.
 
 ## Skills
 
@@ -19,6 +19,7 @@ This repository is organized around `my-ios-app-development`, a top-level best-p
 | `my-ios-app-swiftdata` | SwiftData persistence details, including `@Model`, `ModelContainer`, `@Query`, predicates, migrations, CloudKit sync, and Core Data coexistence. |
 | `my-ios-app-pdfkit` | PDFKit rendering, navigation, search, selection, thumbnails, annotations, and SwiftUI wrapping. |
 | `my-ios-app-swiftui-webkit` | WebKit-backed SwiftUI HTML rendering, local content, navigation policy, JavaScript, and custom URL schemes. |
+| `my-ios-app-aso` | iOS App Store metadata and ASO strategy for app names, subtitles, keyword fields, promotional text, descriptions, competitor matrices, localized listing copy, screenshot messaging, and positioning review. |
 | `my-ios-app-store-changelog` | App Store "What's New", TestFlight notes, and user-facing changelog generation from git history. |
 
 ## Layout
@@ -34,6 +35,7 @@ skills/
   my-ios-app-swiftdata/
   my-ios-app-pdfkit/
   my-ios-app-swiftui-webkit/
+  my-ios-app-aso/
   my-ios-app-store-changelog/
 ```
 
@@ -53,6 +55,7 @@ ln -sfn "$PWD/skills/my-ios-app-ios-accessibility" ~/.codex/skills/my-ios-app-io
 ln -sfn "$PWD/skills/my-ios-app-swiftdata" ~/.codex/skills/my-ios-app-swiftdata
 ln -sfn "$PWD/skills/my-ios-app-pdfkit" ~/.codex/skills/my-ios-app-pdfkit
 ln -sfn "$PWD/skills/my-ios-app-swiftui-webkit" ~/.codex/skills/my-ios-app-swiftui-webkit
+ln -sfn "$PWD/skills/my-ios-app-aso" ~/.codex/skills/my-ios-app-aso
 ln -sfn "$PWD/skills/my-ios-app-store-changelog" ~/.codex/skills/my-ios-app-store-changelog
 ```
 
@@ -67,6 +70,7 @@ For example:
 - Use `my-ios-app-development` for feature planning, app architecture, data ownership, file layout, ASO metadata, and validation strategy.
 - Use `my-ios-app-swiftui-patterns` for SwiftUI screen composition, navigation, sheets, app wiring, previews, and state ownership details.
 - Use `my-ios-app-swift-concurrency` when compiler diagnostics involve actor isolation, `Sendable`, or data-race safety.
+- Use `my-ios-app-aso` when generating or optimizing App Store names, subtitles, keywords, descriptions, screenshot copy, or competitor matrices.
 - Use `my-ios-app-store-changelog` when preparing App Store or TestFlight release notes from git history.
 
 ## Attribution
