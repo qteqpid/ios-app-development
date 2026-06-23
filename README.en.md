@@ -1,10 +1,22 @@
-# iOS App Development Skills
+# iOS App Development Skills - SwiftUI iOS App Development AI Skills
 
 Language: [简体中文](README.md) | English
 
-Reusable Codex skills for building, reviewing, and maintaining SwiftUI iOS apps.
+Reusable AI coding skills for building, reviewing, and maintaining SwiftUI iOS apps. This repository is for iOS developers using Codex, Claude Code, AI coding agents, or custom development workflows, and covers SwiftUI app architecture, Swift concurrency, SwiftData, local file imports, PDFKit/WebKit readers, accessibility, performance optimization, testing, App Store ASO, and release notes.
 
 This repository is organized around `my-ios-app-development`, a top-level best-practice skill for iOS app work, plus focused companion skills for SwiftUI patterns, concurrency, testing, performance, accessibility, SwiftData, PDFKit, WebKit, ASO, and App Store release copy.
+
+## Use Cases
+
+- Build, refactor, or review SwiftUI iOS apps with Codex, Claude Code, or other AI coding assistants.
+- Design iOS app architecture, state management, navigation, theming, file import flows, and local-first data.
+- Handle Swift concurrency, `Sendable`, `@MainActor`, SwiftData, Swift Testing, PDFKit, WebKit, and accessibility implementation.
+- Optimize App Store metadata, ASO keywords, screenshot copy, TestFlight notes, and App Store release notes.
+- Create reusable AI coding agent prompts, assistant skills, or an iOS development playbook.
+
+## Search Keywords
+
+SwiftUI, iOS app development, AI coding skills, Codex skills, Claude Code skills, AI coding assistant, AI coding agent, iOS architecture, Swift concurrency, SwiftData, Swift Testing, PDFKit, WebKit, accessibility, iOS performance optimization, App Store ASO, App Store metadata, TestFlight notes, release notes, iOS development guide.
 
 ## Skills
 

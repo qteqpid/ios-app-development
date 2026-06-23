@@ -1,10 +1,22 @@
-# iOS App Development Skills
+# iOS App Development Skills - SwiftUI iOS 应用开发 AI 技能库
 
 语言：简体中文 | [English](README.en.md)
 
-用于构建、审查和维护 SwiftUI iOS 应用的可复用 Codex skills。
+用于构建、审查和维护 SwiftUI iOS 应用的可复用 AI coding skills。这个仓库面向使用 Codex、Claude Code、AI coding agents 或自定义开发工作流的 iOS 开发者，提供 SwiftUI 应用架构、Swift 并发、SwiftData、本地文件导入、PDFKit/WebKit 阅读器、无障碍、性能优化、测试、App Store ASO 和发布说明等实践指南。
 
 本仓库围绕 `my-ios-app-development` 这个顶层 iOS 应用开发最佳实践 skill 组织，并提供面向 SwiftUI 模式、并发、测试、性能、无障碍、SwiftData、PDFKit、WebKit、ASO 和 App Store 发布文案的专项 companion skills。
+
+## 适合场景
+
+- 用 Codex、Claude Code 或其他 AI coding assistants 开发、重构或审查 SwiftUI iOS 应用。
+- 设计 iOS app architecture、状态管理、导航、主题、文件导入和本地优先数据流。
+- 处理 Swift concurrency、`Sendable`、`@MainActor`、SwiftData、Swift Testing、PDFKit、WebKit 和 accessibility 相关实现。
+- 优化 App Store metadata、ASO keywords、截图文案、TestFlight notes 和 App Store release notes。
+- 建立可复用的 AI coding agent prompts、assistant skills 或 iOS development playbook。
+
+## 搜索关键词
+
+SwiftUI, iOS app development, AI coding skills, Codex skills, Claude Code skills, AI coding assistant, AI coding agent, iOS architecture, Swift concurrency, SwiftData, Swift Testing, PDFKit, WebKit, accessibility, iOS performance optimization, App Store ASO, App Store metadata, TestFlight notes, release notes, iOS development guide.
 
 ## Skills
 
