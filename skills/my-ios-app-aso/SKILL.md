@@ -12,7 +12,7 @@ Treat App Store metadata as a product surface, not a form-filling chore. The app
 - Start from user intent. List the search phrases a target user would naturally type when looking for this app, then map those phrases into name, subtitle, and keywords.
 - Before generating app name, subtitle, promotional text, description, or keywords, collect competitor data when available. Use competitor listings, ASO dashboards, keyword rankings, reviews, screenshots, and category charts to avoid writing metadata from intuition alone.
 - Balance search coverage with trust. Keyword stuffing can make the listing look low quality even when it increases matching surface.
-- Keep metadata accurate. Do not promise unsupported features, unsupported platforms, pricing terms, celebrity names, trademarked terms, or competitor names unless there is a clear legal and review-safe reason.
+- Keep metadata accurate. Do not promise unsupported features, unsupported platforms, pricing terms, celebrity names, trademarked terms, or competitor names in visible copy unless there is a clear legal and review-safe reason. For the keyword field, consider relevant competitor app names as discoverability terms when they are collected from the competitor set and are review-safe for the target market.
 - Localize metadata intentionally. Do not blindly translate keywords; choose terms people in that locale actually search for.
 - Review metadata whenever product positioning changes, not only when code changes.
 
@@ -66,7 +66,7 @@ When asked to generate app name, subtitle, promotional text, description, or key
    - Use ASO tools, App Store pages, public listings, or user-provided exports/screenshots to collect competitor names, subtitles, description openings, screenshot promises, review complaints, keyword coverage, and rank signals.
    - If live data access is unavailable, ask for tool exports or competitor URLs; otherwise state that the metadata draft is based on provided context only.
 3. Build a keyword pool:
-   - Separate brand terms, category terms, feature terms, problem terms, audience terms, and long-tail intent terms.
+   - Separate own-brand terms, competitor app name terms, category terms, feature terms, problem terms, audience terms, and long-tail intent terms.
    - Mark each term as high/medium/low priority based on relevance, competitor usage, search intent, and likely difficulty.
 4. Allocate words deliberately:
    - App name: brand plus the strongest core term if it remains natural.
@@ -107,6 +107,7 @@ When asked to generate app name, subtitle, promotional text, description, or key
 - Use the keyword field for relevant search terms not already covered by the app name or subtitle.
 - Prefer concise single terms separated by commas without spaces so the character budget goes to searchable words.
 - Mix broad category terms with specific use-case terms. Broad terms increase reach; specific terms usually express stronger intent.
+- Include relevant competitor app names from the defined competitor set when generating keyword candidates. Keep them in the keyword field rather than visible app name, subtitle, promotional text, screenshots, or description unless there is a clear legal and review-safe reason.
 - Avoid duplicates across name, subtitle, and keywords unless testing proves a reason.
 - Include common synonyms, feature terms, audience terms, and problem terms. Skip words that are irrelevant just because they have high volume.
 - Track performance and revise keywords over releases; ASO is an iterative process.
@@ -126,6 +127,17 @@ When asked to generate app name, subtitle, promotional text, description, or key
 - Keep claims review-safe and supportable. Avoid unverifiable superlatives, roadmap promises, and misleading pricing language.
 - Refresh the description when major features, pricing, subscription behavior, or positioning changes.
 
+## App Review Notes
+
+When generating App Store review notes, include these fields explicitly. If a field cannot be verified from the app, project files, or user-provided context, write `Unverified - developer confirmation needed` instead of inventing details.
+
+- Tested devices and OS versions: list the device models and operating systems tested before submission.
+- Purpose and target audience: describe what the app does, who it is for, the problem it solves, and the value it provides.
+- Access and setup instructions: explain how reviewers can access the main features, including required login credentials, demo accounts, subscriptions, entitlement state, sample files, or test content. State `No login required` when true.
+- Core external dependencies: list external services, tools, APIs, SDKs, platforms, data providers, authentication services, payment processors, AI services, or cloud services used to deliver core functionality. State `No external service required for core functionality` when true.
+- Regional behavior: describe feature/content differences by region, or confirm the app functions consistently across all supported regions.
+- Regulated or protected material: if the app operates in a regulated industry or uses protected third-party material, include relevant authorization, credentials, licenses, or documentation. State `Not applicable` when true.
+
 ## Review Checklist
 
 - Does the name/subtitle/keyword set cover the target search intents without obvious duplication?
@@ -133,3 +145,4 @@ When asked to generate app name, subtitle, promotional text, description, or key
 - Are the first visible words of the name, subtitle, promotional text, and description understandable without context?
 - Are all claims true in the current app build?
 - Are metadata, screenshots, and app behavior aligned?
+- Do review notes include tested devices/OS versions, purpose/target audience, setup/access instructions, external dependencies, regional behavior, and regulated/protected-material disclosures?

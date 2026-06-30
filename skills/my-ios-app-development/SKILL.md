@@ -20,6 +20,7 @@ This skill sets the default engineering posture. When the task needs concrete fr
 - Make user-owned data durable before optimizing derived caches or visual polish.
 - Preserve existing data formats and migration paths unless the task explicitly calls for a storage change.
 - Treat build success as part of the task, not a separate optional step.
+- When this skill could be improved because guidance is outdated, ambiguous, or missing a recurring rule, propose the improvement to the user and wait for explicit confirmation before editing the skill.
 
 ## Version And Availability Strategy
 
@@ -32,6 +33,8 @@ This skill sets the default engineering posture. When the task needs concrete fr
 ## Optimization Discussion Template
 
 When the user wants to review optimizations or bug fixes before implementation, explain one item at a time and wait for confirmation before editing nontrivial code.
+
+When executing optimization, cleanup, or refactoring work, always apply this rule: explain the concrete change first and wait for explicit user confirmation before editing, even if the user has already broadly agreed to continue with the next optimization item.
 
 Use this shape:
 
@@ -89,6 +92,7 @@ Practical rules:
 - Keep `ContentView.swift` small. Use it mainly for top-level composition, navigation, sheets, and environment wiring.
 - Split views by feature when a file grows: headers, grids, tiles, settings rows, reader controls, dialogs, and sheets can live in separate files.
 - When the source folder around `ContentView.swift` becomes crowded, introduce responsibility-based subdirectories instead of leaving every feature file in one flat directory. Prefer domain/ownership groupings such as `Reader/Reflowable`, `Reader/Selection`, `Reader/Web`, `Library/Grid`, or `Library/Sheets` over arbitrary type buckets when that makes navigation clearer.
+- When refactoring or adding features, prefer directory-based isolation for each feature or responsibility instead of appending unrelated types to existing large files. Put reusable app-wide utilities, models, modifiers, and sheets under a `Shared` directory when the project has one, or introduce `Shared/<Concern>` for new cross-feature behavior.
 - Keep reusable non-UI behavior in focused helper files, for example `LocalFileImporter`, `BookParser`, `CacheManager`, or `ShareExporter`.
 - Add a brief file-level comment only when the file's role, ownership boundary, lifecycle assumptions, or interaction with persistence/rendering/import flows is not obvious from its name and top-level types.
 - Keep UI independent from storage paths. Views should render model values and call store/controller methods.
@@ -117,6 +121,41 @@ Use `my-ios-app-swiftdata` when implementing or reviewing `@Model`, `ModelContai
 - Add semantic tokens such as `background`, `primaryText`, `secondaryText`, `controlBackground`, `divider`, and `accent`.
 - If a screen has a distinct visual language, give it a focused theme type instead of overloading the main app theme.
 - Check both light and dark modes for contrast, readability, and white-on-white or black-on-black control failures.
+
+## App Icon And Logo Prompting
+
+When the user asks for an app logo, app icon, or image-generation prompt for an Apple-platform app, produce a prompt that creates the app icon artwork itself, not a mockup of an icon.
+
+Default prompt rules:
+
+- Ask for a square `1024x1024` image suitable for an Apple app icon source asset.
+- Ask for the complete image to be the icon artwork, not a logo drawn inside another rounded square, device mockup, app-store card, or presentation scene.
+- Use a transparent background when the user wants raw artwork, or a simple neutral background only when the image model cannot output transparency.
+- Explicitly say `no text, no letters, no app name` unless the user specifically wants typography.
+- Describe one or two core metaphors from the app's actual function, then add visual style, material, lighting, color, and small-size recognizability.
+- For macOS menu bar or utility apps, prefer simple, high-contrast silhouettes with one memorable object and one subtle functional detail.
+- Avoid decorative complexity that will disappear at small sizes.
+- If the project uses Xcode Asset Catalog, tell the user the generated `1024x1024` PNG can be imported as the AppIcon source; do not manually create many icon sizes unless the project requires legacy icon files.
+
+Reusable prompt shape:
+
+```text
+Create a polished Apple app icon for “[App Name]”, an app that [one-sentence purpose].
+
+The icon should be a clean, premium [2D/3D/vector] symbol combining [primary metaphor] and [secondary functional detail]. The design should feel native to modern iOS/macOS, professional, readable at small sizes, and directly connected to the app's core use case.
+
+Use a transparent background. The entire image should be the app icon artwork itself, not placed inside a rounded square, not inside a mockup, and not shown on a device. No text, no letters, no app name.
+
+Visual direction:
+- central object: [main object]
+- subtle detail: [waveform/time marker/document/checkmark/etc.]
+- colors: [2-4 color/material notes]
+- high-quality render, soft lighting, crisp edges
+- centered composition, enough padding around the object
+- recognizable at small Dock, Home Screen, Spotlight, and Settings sizes
+
+Output: square 1024x1024 image, transparent background, no rounded-corner background.
+```
 
 ## SwiftUI UI Guidance
 
@@ -215,6 +254,7 @@ Use `my-ios-app-pdfkit` for PDF-specific implementation and `my-ios-app-swiftui-
 - Keep XCTest for UI tests, performance tests, and snapshot test infrastructure when the project already uses it.
 - Test model/helper behavior more than view structure.
 - Use in-memory stores and temporary directories for persistence tests.
+- After adding or modifying a feature, first run the relevant existing tests. If they fail, fix the issue or update obsolete tests before adding new coverage. If they pass, evaluate whether focused tests should be added or updated, and prefer adding them whenever practical; if new tests are skipped, note the reason.
 - Include at least one regression test for bug fixes that touch data loss, import, deletion, or reading progress.
 
 Use `my-ios-app-swift-testing` for `@Test`, `#expect`, `#require`, async tests, migration from XCTest assertions, and modern test organization.
